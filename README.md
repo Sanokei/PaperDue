@@ -2,7 +2,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/SanoKei/PaperDue">
-    <img src="https://cdn.discordapp.com/attachments/716875477549318167/829153105533730826/paperdue5_1.png" alt="Logo_Pic" width="305" height="360">
+    <img src="https://cdn.discordapp.com/attachments/716875477549318167/829153105533730826/paperdue5_1.png" alt="Logo_Pic" width="152" height="180">
   </a>
   <h3 align="center">
    PaperDue.net
