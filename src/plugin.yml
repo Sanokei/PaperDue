@@ -1,0 +1,11 @@
+name: PaperDue Plugin
+version: 0.0.1
+main: github.sanokei.paperdue.Main
+author: SanoKei
+description: Plugin for PaperDue.Net
+api-version: 1.16.5
+depend: [ ProtocolLib ]
+
+commands:
+   f:
+      description: Factions plugin
