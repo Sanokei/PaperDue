@@ -1,5 +1,3 @@
-[![Discord][discord-shield]](https://discord.paperdue.net)
-
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
