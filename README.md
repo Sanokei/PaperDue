@@ -5,7 +5,7 @@
     <img src="https://cdn.discordapp.com/attachments/716875477549318167/829153105533730826/paperdue5_1.png" alt="Logo_Pic" width="305" height="360">
   </a>
   <h3 align="center">
-   <img src="https://cdn.discordapp.com/attachments/716875477549318167/853796006637076490/paperduenetworkname.png" alt="Logo_Name" width="160" height="80">
+   PaperDue.net
   </h3>
 </p>
 
