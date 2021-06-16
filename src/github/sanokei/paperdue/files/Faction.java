@@ -41,7 +41,7 @@ public class Faction {
 	public List<String> nuinvite = new ArrayList<String>();
 	public List<String> enemy =  new ArrayList<String>();
 	//Banners
-	public List<String> banner =  new ArrayList<String>();
+	public List<Integer> bannerID =  new ArrayList<Integer>(); //armorStand_ID
 	public ItemStack bannerLook = new ItemStack(Material.WHITE_BANNER);
 	//
 	private DateFormat df = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");

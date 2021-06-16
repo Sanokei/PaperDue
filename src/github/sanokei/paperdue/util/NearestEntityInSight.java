@@ -14,7 +14,7 @@ public class NearestEntityInSight {
 		final int ATTACK_REACH = 4; 
 		return ATTACK_REACH;
 	}
-	public static Entity nearestArmorStandInSight(Player player, Class<Entity> entity) {
+	public static Entity nearestEntityInSight(Player player, Class<Entity> entity) {
 		Location observerPos = player.getEyeLocation();
 		Vector3D observerDir = new Vector3D(observerPos.getDirection());
 		

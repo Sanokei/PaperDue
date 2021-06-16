@@ -5,10 +5,12 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
@@ -19,6 +21,7 @@ import github.sanokei.paperdue.files.PlayerCustom;
 import github.sanokei.paperdue.Main;
 import github.sanokei.paperdue.factions.FactionsCommand;
 
+@SuppressWarnings("unused")
 public class BannerListener implements Listener{
 	
 	boolean isBanner(ItemStack i) {
@@ -29,7 +32,7 @@ public class BannerListener implements Listener{
 	public void onBannerPlace(BlockPlaceEvent e) {
 		if(isBanner(e.getItemInHand())){
 			BannerMeta itemMeta = (BannerMeta) e.getItemInHand().getItemMeta();
-			NamespacedKey facBanner = new NamespacedKey(Main.getPlugin(), "factionBannerNum");
+			NamespacedKey facBanner = new NamespacedKey(Main.getPlugin(), "banner_ID");
 			if(itemMeta.getPersistentDataContainer().has(facBanner, PersistentDataType.INTEGER)){
 				/*
 				 * im debating if i should cancel the block place event and handle it on my own or just use the ingame features to test everything i need to test
@@ -68,7 +71,14 @@ public class BannerListener implements Listener{
 	}
 	
 	@EventHandler
-	public void onBannerDestroy(EntityDamageByEntityEvent e) {
-		
+	public void onBannerInteract(PlayerInteractEntityEvent e) {
+		if(e.getRightClicked() instanceof ArmorStand) {
+			NamespacedKey armorStand = new NamespacedKey(Main.getPlugin(), "banner_ID");
+			if(e.getRightClicked().getPersistentDataContainer().has(armorStand,PersistentDataType.INTEGER)) {
+				//TODO make menu
+			}
+		}
 	}
+	
+	//TODO when making banner attacked test if banner is part of faction or not
 }
