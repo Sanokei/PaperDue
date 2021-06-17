@@ -24,7 +24,7 @@ import github.sanokei.paperdue.factions.FactionsCommand;
 @SuppressWarnings("unused")
 public class BannerListener implements Listener{
 	
-	boolean isBanner(ItemStack i) {
+	static boolean isBanner(ItemStack i) {
 		//Bukkit no longer has one specific Material for BANNER, so to combat this, we check for "BANNER" in the material name instead
         return i != null && i.getType().name().contains("BANNER");
     }
@@ -38,10 +38,12 @@ public class BannerListener implements Listener{
 				 * im debating if i should cancel the block place event and handle it on my own or just use the ingame features to test everything i need to test
 				 * im tired so i think imma go with the lazy way. I just cant have the item drop..
 				 * */
-				e.getBlock().setType(Material.AIR);
+				//e.getBlock().setType(Material.AIR);
+				e.setCancelled(true); 
+				//has to cancel no matter the outcome
+				
 				PlayerCustom playerCustom = (PlayerCustom) FactionsCommand.readPCFile(e.getPlayer().getUniqueId().toString(),e.getPlayer());
 				Faction faction = (Faction) FactionsCommand.readFacFile(playerCustom.fac_Name.toLowerCase(),e.getPlayer());
-				e.setCancelled(true); //has to cancel no matter the outcome
 				if(playerCustom.infac) {
 					Block underBlock = e.getBlock();
 					Block overBlock = e.getBlock();
@@ -61,7 +63,7 @@ public class BannerListener implements Listener{
 					Banner newBanner = new Banner(Main.getPlugin());
 					Location location = new Location(e.getPlayer().getWorld(),e.getBlock().getX(),e.getBlock().getY(),e.getBlock().getZ());
 					//Create banner at location
-					newBanner.CreateBanner(e.getPlayer(), faction.bannerLook, itemMeta, location);
+					newBanner.createBanner(e.getPlayer(), faction.bannerLook, itemMeta, location);
 				}
 				else {
 					e.getPlayer().sendMessage("You must be part of a "+ (FactionsCommand.commandName+" to place a banner"));

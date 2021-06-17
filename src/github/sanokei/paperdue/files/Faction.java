@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 
 import com.google.gson.annotations.SerializedName;
 
-@SuppressWarnings("unused")
 public class Faction {
 	//Basic
 	public String name;

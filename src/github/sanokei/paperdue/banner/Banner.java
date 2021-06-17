@@ -2,25 +2,16 @@ package github.sanokei.paperdue.banner;
 
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftArmorStand;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.util.BoundingBox;
 
 import github.sanokei.paperdue.Main;
-import github.sanokei.paperdue.factions.FactionsCommand;
-import github.sanokei.paperdue.files.Faction;
-import github.sanokei.paperdue.files.PlayerCustom;
-import github.sanokei.paperdue.util.Ray;
-import net.minecraft.world.level.material.Material;
 
 
 /*TODO
@@ -28,6 +19,8 @@ import net.minecraft.world.level.material.Material;
  * level based base plates so you know what level the banner is
  * i.e bottom head part wood or quartz then more elaborate etc
  * */
+//TODO banner decay
+//TODO "fainted" banner / broken
 public class Banner {
 	/*TODO
 	 * make 2 
@@ -76,36 +69,93 @@ public class Banner {
 		return bannerAs;
 	}
 	//creates a banner entity with one of the items being the banner
-	public boolean CreateBanner(Player player, ItemStack bannerCustom, BannerMeta itemMeta, Location location) {
-		//TODO make this NMS packets so that i can just send packets to every player instead
-		bannerCustom.setItemMeta(itemMeta);
-		//Location
-		Location bannerAsLocation = location.clone().add(0,1.3, 0.25); //location is of the block itself meaning i must set the offset
-		Location hitDetection = location.clone().add(0,0.5,0);
-		//ArmorStand
-		ArmorStand bannerAs = createArmorStand(bannerAsLocation, null, false,false,false,false,true,false,false,true);
-		ArmorStand hitBox = createArmorStand(bannerAsLocation, null, false,false,false,false,false,true,false,false);
-		//NamespacedKey
-		NamespacedKey facBannerHealth = new NamespacedKey(Main.getPlugin(), "banner_health");
-		NamespacedKey facBannerID = new NamespacedKey(Main.getPlugin(), "banner_ID");
-		/*------PlayerCustom and Faction------*/
-		PlayerCustom playerCustom = (PlayerCustom) FactionsCommand.readPCFile(player.getUniqueId().toString(),player);
-		Faction faction = (Faction) FactionsCommand.readFacFile(playerCustom.fac_Name.toLowerCase(),player);
-		/*------Set PersistentDataContainer------*/
-		//set Id of the banner for the size of the array
-		hitBox.getPersistentDataContainer().set(facBannerID, PersistentDataType.INTEGER,faction.bannerID.size());
-		//lock equip
-		bannerAs = equipLock(bannerAs);
-		hitBox = equipLock(hitBox);
-		//set health of banner
-		//TODO
-		//Set head of banner
-		EntityEquipment eq = bannerAs.getEquipment();
-		eq.setHelmet(bannerCustom);
-		
-		return false;
+	public boolean createBanner(Player player, ItemStack bannerCustom, BannerMeta itemMeta, Location location) {
+		try {
+			/*
+			 * TODO
+			 * create the banners
+			 * create hitbox
+			 * create damage counter at the top
+			 * create slime
+			 * */
+			//TODO make this NMS packets so that i can just send packets to every player instead
+			//bannerCustom.setItemMeta(itemMeta);
+			
+			//Location
+			Location bannerAsLocation = location.clone().add(0,1.3, 0.25); //location is of the block itself meaning i must set the offset
+			Location hitDetection = location.clone().add(0,0.5,0);
+			//ArmorStand
+			ArmorStand bannerAs = createArmorStand(bannerAsLocation, null, false,false,false,false,true,false,false,true);
+			ArmorStand hitBox = createArmorStand(hitDetection, null, false,false,false,false,false,true,false,false);
+			//NamespacedKey
+			NamespacedKey facBannerHealth = new NamespacedKey(Main.getPlugin(), "banner_health");
+			/*------Set PersistentDataContainer------*/
+			//set Id of the banner for the size of the array
+			
+			//we dont create a new id cuz the item should have one already
+			//itemMeta.getPersistentDataContainer().set(facBannerID, PersistentDataType.INTEGER,faction.bannerID.size());
+			
+			//lock equip
+			bannerAs = equipLock(bannerAs);
+			hitBox = equipLock(hitBox);
+			//set health of banner
+			//if(getMaxHealthBanner(hitBox) != 0) {
+			//getMaxHealthBanner(hitBox);
+			//}
+			hitBox.setCustomName(itemMeta.getPersistentDataContainer().get(facBannerHealth, PersistentDataType.FLOAT).toString());
+			
+			//set the item meta
+			bannerCustom.setItemMeta(itemMeta);
+			//Set head of banner
+			EntityEquipment eq = bannerAs.getEquipment();
+			eq.setHelmet(bannerCustom);
+			//create magma cube
+			createClaimBorder();
+			return true;
+		}
+		catch(Exception e) {
+			return false;
+		}
 	}
 	
-	
-	
+
+	private void createClaimBorder() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void damageBanner(float damage, ArmorStand as) {
+		if(getBanner(as) != null) {
+			NamespacedKey facBannerHealth = new NamespacedKey(Main.getPlugin(), "banner_health");
+			ItemStack banner = getBanner(as);
+			Float currentHealth = banner.getItemMeta().getPersistentDataContainer().get(facBannerHealth, PersistentDataType.FLOAT);
+			//takes the health and subtracts the damage it recieves as a parameter
+			banner.getItemMeta().getPersistentDataContainer().set(facBannerHealth, PersistentDataType.FLOAT, currentHealth - damage);
+		}
+	}
+	public float getMaxHealthBanner(ArmorStand as) {
+		//it would need to calculate the health of the banner using levels of the banner
+		if(getBanner(as) != null) {
+			NamespacedKey facBannerLevel = new NamespacedKey(Main.getPlugin(), "banner_level");
+			ItemStack banner = getBanner(as);
+			return levelToHealth(banner.getItemMeta().getPersistentDataContainer().get(facBannerLevel, PersistentDataType.INTEGER));
+		}
+		return 0;
+	}
+	public int levelToHealth(int level) {
+		if(level == 0) {
+			return 20; //hearts would be like 10 hearts
+		}
+		return (int)Math.log((level + 1)*100);
+	}
+	public ItemStack getBanner(ArmorStand as) {
+		NamespacedKey facBannerID = new NamespacedKey(Main.getPlugin(), "banner_ID");
+		EntityEquipment eq = as.getEquipment();
+		if(BannerListener.isBanner(eq.getHelmet())) {
+			if(eq.getHelmet().getItemMeta().getPersistentDataContainer().has(facBannerID, PersistentDataType.INTEGER)) {
+				return eq.getHelmet();
+			}
+		}
+		return null;
+	}
 }
