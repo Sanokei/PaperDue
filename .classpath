@@ -7,10 +7,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/William/Desktop/PaperDue/Built-Spigot/spigot-1.17.jar"/>
-	<classpathentry kind="lib" path="C:/Users/William/Desktop/PaperDue/PaperDue/depend/HeadDB-2.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/William/Desktop/PaperDue/PaperDue/depend/worldedit-bukkit-7.2.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/William/Desktop/PaperDue/PaperDue/depend/worldguard-bukkit-7.0.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/William/Desktop/PaperDue/PaperDue/depend/ProtocolLib.jar"/>
-	<classpathentry kind="lib" path="C:/Users/William/Desktop/PaperDue/PaperDue/depend/lombok.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

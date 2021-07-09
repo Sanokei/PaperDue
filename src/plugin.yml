@@ -3,7 +3,7 @@ version: 0.0.1
 main: github.sanokei.paperdue.Main
 author: SanoKei
 description: Plugin for PaperDue.Net
-api-version: 1.16.5
+api-version: 1.17.1
 depend: [ ProtocolLib ]
 
 commands:

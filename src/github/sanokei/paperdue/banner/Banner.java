@@ -2,6 +2,8 @@ package github.sanokei.paperdue.banner;
 
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.craftbukkit.libs.org.codehaus.plexus.util.ReflectionUtils;
+import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EntityEquipment;
@@ -12,6 +14,9 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
 import github.sanokei.paperdue.Main;
+import net.minecraft.core.IRegistry;
+import net.minecraft.server.level.WorldServer;
+import net.minecraft.world.entity.monster.EntityMagmaCube;
 
 
 /*TODO
@@ -118,12 +123,18 @@ public class Banner {
 		}
 	}
 	
-
+	
 	private void createClaimBorder() {
 		// TODO Auto-generated method stub
 		
 	}
-
+	public void spawnBorder(Location loc, Player p) {
+//        WorldServer s = ((CraftWorld)loc.getWorld()).getHandle();
+//        EntityType<MAGMA_CUBE> BORDER_SLIME = ENTITIES.register(EntityNames.MAGMA_CUBE,()-> EntityMagmaCube::new, EntityClassification.MONSTER, 2.04F, 2.04F);
+//        EntityMagmaCube cube = new EntityMagmaCube( s);
+//        ReflectionUtils.sendPacket(p, packet);
+	    //TODO create the border thing
+	}
 	public void damageBanner(float damage, ArmorStand as) {
 		if(getBanner(as) != null) {
 			NamespacedKey facBannerHealth = new NamespacedKey(Main.getPlugin(), "banner_health");
