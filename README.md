@@ -1,4 +1,6 @@
 <!-- PROJECT LOGO -->
+# ARCHIVED PROJECT HAS MOVED TO HERE [PAPERDUE](https://github.com/PaperDue)
+
 <br />
 <p align="center">
   <a href="https://github.com/SanoKei/PaperDue">
